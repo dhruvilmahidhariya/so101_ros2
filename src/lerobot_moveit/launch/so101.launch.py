@@ -39,10 +39,10 @@ def generate_launch_description():
 
     serial_port_arg = DeclareLaunchArgument(
         "serial_port",
-        default_value="/dev/ttyACM0",
+        default_value="/dev/ttyACM1",
         description="Serial port for real hardware (used when robot_mode is real or both)",
     )
-    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM0")
+    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM1")
 
     # ----- Robot descriptions -----
     model_path = os.path.join(pkg_lerobot_description, "urdf", "so101.urdf.xacro")

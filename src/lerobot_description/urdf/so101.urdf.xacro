@@ -5,7 +5,7 @@
     <xacro:arg name="ros2_control_config_file" default="$(find lerobot_controller)/config/so101_controllers.yaml" />
     <xacro:arg name="use_sim" default="true" />
     <xacro:arg name="calibration_file" default="" />
-    <xacro:arg name="serial_port" default="/dev/ttyACM0" />
+    <xacro:arg name="serial_port" default="/dev/ttyACM1" />
 
     <xacro:include filename="$(find lerobot_description)/urdf/so101_new_calib.urdf" />
     <xacro:if value="$(arg use_sim)">

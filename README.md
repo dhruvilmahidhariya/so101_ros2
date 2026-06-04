@@ -83,7 +83,7 @@ ros2 launch lerobot_moveit so101.launch.py robot_mode:=real
 ```
 
 - **`robot_mode:=sim`** (default): Gazebo + MoveIt + RViz. Plan and Execute drives the simulated robot.
-- **`robot_mode:=real`**: Real hardware + MoveIt + RViz. Connect the arm via USB (e.g. `/dev/ttyACM0`); override with `serial_port:=/dev/ttyUSB0` if needed (passed to the real controller).
+- **`robot_mode:=real`**: Real hardware + MoveIt + RViz. Connect the arm via USB (e.g. `/dev/ttyACM1`); override with `serial_port:=/dev/ttyUSB0` if needed (passed to the real controller).
 
 
 In RViz use **Motion Planning** and **Execute**; planning library **OMPL** for arm and gripper.
@@ -92,7 +92,7 @@ In RViz use **Motion Planning** and **Execute**; planning library **OMPL** for a
 - **Arm**: In the Motion Planning panel, set **Planning Group** to **kienmatics** (not "gripper"). Then move the interactive marker to a new pose and use Plan & Execute.
 - **Gripper**: Set Planning Group to **gripper**, change the gripper target (drag the marker or set a new joint goal), then Plan & Execute.
 - If the target pose is the same as the current one, the plan has zero motion and the controller still reports "Goal reached" with no visible movement.
-- Check USB: `ls -l /dev/ttyACM0`, user in `dialout` group; override port with `serial_port:=/dev/ttyUSB0` if the arm is on a different port.
+- Check USB: `ls -l /dev/ttyACM1`, user in `dialout` group; override port with `serial_port:=/dev/ttyUSB0` if the arm is on a different port.
 
 ### Other launch files
 
