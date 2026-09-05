@@ -171,44 +171,63 @@
       <mass value="0.104"/>
       <inertia ixx="2.87438e-05" ixy="7.41152e-06" ixz="1.26409e-06" iyy="0.000159844" iyz="-4.90188e-08" izz="0.00014529"/>
     </inertial>
-    <!-- Part under_arm_so101_v1 -->
+    <!-- LINK4 replaces under_arm; same elbow mate as the original part -->
     <visual>
-      <origin xyz="-0.0648499 -0.032 0.0182" rpy="3.14159 -0 6.67202e-31"/>
+      <origin xyz="-0.0727 -0.1484 0.0125" rpy="-1.5708 -1.5708 0"/>
       <geometry>
-        <mesh filename="package://lerobot_description/meshes/so101/under_arm_so101_v1.stl"/>
+        <mesh filename="package://lerobot_description/meshes/so101/LINK4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="3d_printed"/>
     </visual>
     <collision>
-      <origin xyz="-0.0648499 -0.032 0.0182" rpy="3.14159 -0 6.67202e-31"/>
+      <origin xyz="-0.0727 -0.1484 0.0125" rpy="-1.5708 -1.5708 0"/>
       <geometry>
-        <mesh filename="package://lerobot_description/meshes/so101/under_arm_so101_v1.stl"/>
+        <mesh filename="package://lerobot_description/meshes/so101/LINK4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
-    <!-- Part motor_holder_so101_wrist_v1 -->
+  </link>
+
+  <link name="link5_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
     <visual>
-      <origin xyz="-0.0648499 -0.032 0.018" rpy="-3.14159 -2.55351e-15 -1.83387e-30"/>
+      <origin xyz="-0.0727 -0.1484 -0.0018" rpy="-1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://lerobot_description/meshes/so101/link5.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="3d_printed"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0727 -0.1484 -0.0018" rpy="-1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://lerobot_description/meshes/so101/link5.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.0648499 -0.032 0.0037" rpy="-3.14159 -2.55351e-15 -1.83387e-30"/>
       <geometry>
         <mesh filename="package://lerobot_description/meshes/so101/motor_holder_so101_wrist_v1.stl"/>
       </geometry>
       <material name="3d_printed"/>
     </visual>
     <collision>
-      <origin xyz="-0.0648499 -0.032 0.018" rpy="-3.14159 -2.55351e-15 -1.83387e-30"/>
+      <origin xyz="-0.0648499 -0.032 0.0037" rpy="-3.14159 -2.55351e-15 -1.83387e-30"/>
       <geometry>
         <mesh filename="package://lerobot_description/meshes/so101/motor_holder_so101_wrist_v1.stl"/>
       </geometry>
     </collision>
-    <!-- Part sts3215_03a_v1_4 -->
     <visual>
-      <origin xyz="-0.1224 0.0052 0.0187" rpy="-3.14159 -7.88861e-31 -3.14159"/>
+      <origin xyz="-0.1224 0.0052 0.0044" rpy="-3.14159 0 -3.14159"/>
       <geometry>
         <mesh filename="package://lerobot_description/meshes/so101/sts3215_03a_v1.stl"/>
       </geometry>
       <material name="sts3215"/>
     </visual>
     <collision>
-      <origin xyz="-0.1224 0.0052 0.0187" rpy="-3.14159 -7.88861e-31 -3.14159"/>
+      <origin xyz="-0.1224 0.0052 0.0044" rpy="-3.14159 0 -3.14159"/>
       <geometry>
         <mesh filename="package://lerobot_description/meshes/so101/sts3215_03a_v1.stl"/>
       </geometry>
@@ -370,9 +389,17 @@
   </transmission>
 
   <!-- Joint from lower_arm to wrist -->
-  <joint name="wrist_flex" type="revolute">
-    <origin xyz="-0.1349 0.0052 3.62355e-17" rpy="4.02456e-15 8.67362e-16 -1.5708"/>
+  <joint name="elbow_rotate" type="revolute">
+    <origin xyz="0 0 0.0143" rpy="0 0 0"/>
     <parent link="lower_arm_link"/>
+    <child link="link5_link"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="10" velocity="10" lower="-1.38" upper="1.38"/>
+  </joint>
+
+  <joint name="wrist_flex" type="revolute">
+    <origin xyz="-0.1349 0.0052 -0.0143" rpy="4.02456e-15 8.67362e-16 -1.5708"/>
+    <parent link="link5_link"/>
     <child link="wrist_link"/>
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-1.65806" upper="1.65806"/>
