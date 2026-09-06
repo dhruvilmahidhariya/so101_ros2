@@ -20,6 +20,7 @@ arm_controller:
       - "shoulder_pan"
       - "shoulder_lift"
       - "elbow_flex"
+      - "elbow_rotate"
       - "wrist_flex"
       - "wrist_roll"
 

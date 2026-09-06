@@ -39,10 +39,10 @@ def generate_launch_description():
 
     serial_port_arg = DeclareLaunchArgument(
         "serial_port",
-        default_value="/dev/ttyACM1",
+        default_value="/dev/ttyACM0",
         description="Serial port for real hardware (used when robot_mode is real or both)",
     )
-    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM1")
+    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM0")
 
     # ----- Robot descriptions -----
     model_path = os.path.join(pkg_lerobot_description, "urdf", "so101.urdf.xacro")
@@ -116,10 +116,10 @@ def generate_launch_description():
         output="screen",
         condition=sim_or_both_cond,
     )
-    spawn_kienmatics_sim = Node(
+    spawn_kinematics_sim = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["kienmatics_controller"],
+        arguments=["kinematics_controller"],
         output="screen",
         condition=sim_or_both_cond,
     )
@@ -132,7 +132,7 @@ def generate_launch_description():
     )
     delayed_sim_controllers = TimerAction(
         period=5.0,
-        actions=[spawn_joint_state_sim, spawn_kienmatics_sim, spawn_gripper_sim],
+        actions=[spawn_joint_state_sim, spawn_kinematics_sim, spawn_gripper_sim],
         condition=sim_or_both_cond,
     )
 
@@ -229,8 +229,8 @@ def generate_launch_description():
         ],
         remappings=[
             (
-                "controller_manager/kienmatics_controller/follow_joint_trajectory",
-                "trajectory_mirror/kienmatics_controller/follow_joint_trajectory",
+                "controller_manager/kinematics_controller/follow_joint_trajectory",
+                "trajectory_mirror/kinematics_controller/follow_joint_trajectory",
             ),
             (
                 "controller_manager/gripper_controller/follow_joint_trajectory",

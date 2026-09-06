@@ -22,6 +22,10 @@
       <command_interface name="position"/>
       <state_interface name="position"/>
     </joint>
+    <joint name="elbow_rotate">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+    </joint>
     <joint name="wrist_flex">
       <command_interface name="position"/>
       <state_interface name="position"/>

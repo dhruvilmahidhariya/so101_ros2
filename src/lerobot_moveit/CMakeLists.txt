@@ -14,3 +14,7 @@ endif()
 
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})
+file(GLOB _lerobot_moveit_scripts "${CMAKE_CURRENT_SOURCE_DIR}/scripts/*.py")
+if(_lerobot_moveit_scripts)
+  install(PROGRAMS ${_lerobot_moveit_scripts} DESTINATION lib/${PROJECT_NAME})
+endif()

@@ -21,10 +21,10 @@ def generate_launch_description():
 
     serial_port_arg = DeclareLaunchArgument(
         "serial_port",
-        default_value="/dev/ttyACM1",
-        description="Serial port for real hardware (e.g. /dev/ttyACM1 or /dev/ttyUSB0)",
+        default_value="/dev/ttyACM0",
+        description="Serial port for real hardware (e.g. /dev/ttyACM0 or /dev/ttyUSB0)",
     )
-    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM1")
+    serial_port = LaunchConfiguration("serial_port", default="/dev/ttyACM0")
 
     controller_manager_name_arg = DeclareLaunchArgument(
         "controller_manager_name",
@@ -98,7 +98,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=[
-            "kienmatics_controller",
+            "kinematics_controller",
             "--controller-manager",
             controller_manager_name,
         ],

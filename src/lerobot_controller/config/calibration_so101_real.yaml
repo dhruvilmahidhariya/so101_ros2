@@ -1,58 +1,77 @@
-timestamp: '2026-06-04T00:00:00'
+timestamp: '2026-09-05T00:00:00'
 joints:
   shoulder_pan:
+    id: 1
     min:
-      ticks: 722
+      ticks: 797
       speed: 0
       load: 0
     center:
-      ticks: 2002
+      ticks: 2048
       speed: 0
       load: 0
     max:
-      ticks: 3283
+      ticks: 3495
       speed: 0
       load: 0
   shoulder_lift:
+    id: 2
     min:
-      ticks: 769
+      ticks: 996
       speed: 0
       load: 0
     center:
-      ticks: 2040
+      ticks: 2048
       speed: 0
       load: 0
     max:
-      ticks: 3312
+      ticks: 3349
       speed: 0
       load: 0
   elbow_flex:
+    id: 3
     min:
-      ticks: 751
+      ticks: 1002
       speed: 0
       load: 0
     center:
-      ticks: 1898
+      ticks: 2048
       speed: 0
       load: 0
     max:
-      ticks: 3046
+      ticks: 2951
+      speed: 0
+      load: 0
+  elbow_rotate:
+    id: 7
+    min:
+      ticks: 910
+      speed: 0
+      load: 0
+    center:
+      ticks: 2048
+      speed: 0
+      load: 0
+    max:
+      ticks: 3279
       speed: 0
       load: 0
   wrist_flex:
+    id: 4
     min:
-      ticks: 840
+      ticks: 820
       speed: 0
       load: 0
     center:
-      ticks: 2031
+      ticks: 2048
       speed: 0
       load: 0
     max:
-      ticks: 3223
+      ticks: 3164
       speed: 0
       load: 0
   wrist_roll:
+    id: 5
     min:
       ticks: 0
       speed: 0
@@ -66,15 +85,16 @@ joints:
       speed: 0
       load: 0
   gripper:
+    id: 6
     min:
-      ticks: 1550
+      ticks: 2046
       speed: 0
       load: 0
     center:
-      ticks: 2346
+      ticks: 2774
       speed: 0
       load: 0
     max:
-      ticks: 3142
+      ticks: 3503
       speed: 0
       load: 0

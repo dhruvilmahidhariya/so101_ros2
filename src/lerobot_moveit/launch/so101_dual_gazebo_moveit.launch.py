@@ -85,10 +85,10 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster"],
         output="screen",
     )
-    spawn_kienmatics = Node(
+    spawn_kinematics = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["kienmatics_controller"],
+        arguments=["kinematics_controller"],
         output="screen",
     )
     spawn_gripper = Node(
@@ -101,7 +101,7 @@ def generate_launch_description():
         period=5.0,
         actions=[
             spawn_joint_state_broadcaster,
-            spawn_kienmatics,
+            spawn_kinematics,
             spawn_gripper,
         ],
     )
@@ -137,8 +137,8 @@ def generate_launch_description():
         parameters=move_group_params,
         remappings=[
             (
-                "controller_manager/kienmatics_controller/follow_joint_trajectory",
-                "trajectory_mirror/kienmatics_controller/follow_joint_trajectory",
+                "controller_manager/kinematics_controller/follow_joint_trajectory",
+                "trajectory_mirror/kinematics_controller/follow_joint_trajectory",
             ),
             (
                 "controller_manager/gripper_controller/follow_joint_trajectory",

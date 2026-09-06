@@ -394,7 +394,7 @@
     <parent link="lower_arm_link"/>
     <child link="link5_link"/>
     <axis xyz="1 0 0"/>
-    <limit effort="10" velocity="10" lower="-1.38" upper="1.38"/>
+    <limit effort="10" velocity="10" lower="-1.80" upper="1.94"/>
   </joint>
 
   <joint name="wrist_flex" type="revolute">
@@ -402,7 +402,7 @@
     <parent link="link5_link"/>
     <child link="wrist_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="-1.65806" upper="1.65806"/>
+    <limit effort="10" velocity="10" lower="-1.93" upper="1.76"/>
   </joint>
 
   <transmission name="wrist_flex_trans">
@@ -443,7 +443,7 @@
     <parent link="shoulder_link"/>
     <child link="upper_arm_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="-1.74533" upper="1.74533"/>
+    <limit effort="10" velocity="10" lower="-1.75" upper="2.05"/>
   </joint>
 
   <transmission name="shoulder_lift_trans">
@@ -463,7 +463,7 @@
     <parent link="base_link"/>
     <child link="shoulder_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="-1.91986" upper="1.91986"/>
+    <limit effort="10" velocity="10" lower="-1.95" upper="2.25"/>
   </joint>
 
   <transmission name="shoulder_pan_trans">

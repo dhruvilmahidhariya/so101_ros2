@@ -2,7 +2,7 @@
 real_controller_manager:
   ros__parameters:
     update_rate: 10
-    kienmatics_controller:
+    kinematics_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     gripper_controller:
       type: joint_trajectory_controller/JointTrajectoryController
@@ -13,16 +13,16 @@ real_controller_manager:
 controller_manager:
   ros__parameters:
     update_rate: 10
-    kienmatics_controller:
+    kinematics_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     gripper_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-kienmatics_controller:
+kinematics_controller:
   ros__parameters:
-    joints: [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll]
+    joints: [shoulder_pan, shoulder_lift, elbow_flex, elbow_rotate, wrist_flex, wrist_roll]
     command_interfaces: [position]
     state_interfaces: [position]
     allow_nonzero_velocity_at_trajectory_end: true

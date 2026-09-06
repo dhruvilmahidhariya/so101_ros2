@@ -4,16 +4,17 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 
 moveit_simple_controller_manager:
   controller_names:
-    - kienmatics_controller
+    - kinematics_controller
     - gripper_controller
 
-  kienmatics_controller:
+  kinematics_controller:
     type: FollowJointTrajectory
     action_ns: follow_joint_trajectory
     joints:
       - shoulder_pan
       - shoulder_lift
       - elbow_flex
+      - elbow_rotate
       - wrist_flex
       - wrist_roll
   gripper_controller:

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot name="$(arg robot_name)" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:arg name="robot_name" default="so101" />
-    <!-- Pass through for Gazebo: use MoveIt controller config when launching with MoveIt (kienmatics_controller) -->
+    <!-- Pass through for Gazebo: use MoveIt controller config when launching with MoveIt (kinematics_controller) -->
     <xacro:arg name="ros2_control_config_file" default="$(find lerobot_controller)/config/so101_controllers.yaml" />
     <xacro:arg name="use_sim" default="true" />
     <xacro:arg name="calibration_file" default="" />
-    <xacro:arg name="serial_port" default="/dev/ttyACM1" />
+    <xacro:arg name="serial_port" default="/dev/ttyACM0" />
 
     <xacro:include filename="$(find lerobot_description)/urdf/so101_new_calib.urdf" />
     <xacro:if value="$(arg use_sim)">

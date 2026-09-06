@@ -4,12 +4,14 @@
     A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
 -->
 <robot name="so101_new_calib">
+    <!--VIRTUAL JOINT: world -> base_link so RViz Fixed Frame "world" and joint TFs stay connected-->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="kienmatics">
+    <group name="kinematics">
         <chain base_link="base_link" tip_link="gripper_frame_link"/>
     </group>
 
@@ -18,12 +20,21 @@
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <!-- Home = 0 rad for all joints; must match calibration "center" pose so URDF and real align -->
-    <group_state name="Home" group="kienmatics">
+    <group_state name="Home" group="kinematics">
         <joint name="elbow_flex" value="0"/>
+        <joint name="elbow_rotate" value="0"/>
         <joint name="shoulder_lift" value="0"/>
         <joint name="shoulder_pan" value="0"/>
         <joint name="wrist_flex" value="0"/>
         <joint name="wrist_roll" value="0"/>
+    </group_state>
+    <group_state name="Extended" group="kinematics">
+        <joint name="elbow_flex" value="0.8"/>
+        <joint name="elbow_rotate" value="0.6"/>
+        <joint name="shoulder_lift" value="-0.6"/>
+        <joint name="shoulder_pan" value="0.4"/>
+        <joint name="wrist_flex" value="0.5"/>
+        <joint name="wrist_roll" value="0.3"/>
     </group_state>
     <group_state name="Gripper Closed" group="gripper">
         <joint name="gripper" value="0"/>
@@ -35,18 +46,21 @@
     <end_effector name="so_ee"
               parent_link="gripper_frame_link"
               group="gripper"
-              parent_group="kienmatics"/>
+              parent_group="kinematics"/>
 
 
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="base_link" link2="shoulder_link" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="upper_arm_link" reason="Never"/>
     <disable_collisions link1="gripper_link" link2="lower_arm_link" reason="Never"/>
+    <disable_collisions link1="gripper_link" link2="link5_link" reason="Never"/>
     <disable_collisions link1="gripper_link" link2="moving_jaw_so101_v1_link" reason="Adjacent"/>
     <disable_collisions link1="gripper_link" link2="wrist_link" reason="Adjacent"/>
+    <disable_collisions link1="link5_link" link2="lower_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="link5_link" link2="moving_jaw_so101_v1_link" reason="Never"/>
+    <disable_collisions link1="link5_link" link2="wrist_link" reason="Adjacent"/>
     <disable_collisions link1="lower_arm_link" link2="moving_jaw_so101_v1_link" reason="Never"/>
     <disable_collisions link1="lower_arm_link" link2="upper_arm_link" reason="Adjacent"/>
-    <disable_collisions link1="lower_arm_link" link2="wrist_link" reason="Adjacent"/>
     <disable_collisions link1="moving_jaw_so101_v1_link" link2="wrist_link" reason="Never"/>
     <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent"/>
 </robot>

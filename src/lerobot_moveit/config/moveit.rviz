@@ -4,6 +4,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
+        - /MotionPlanning1/Scene Robot1
+        - /MotionPlanning1/Planning Request1
+        - /RobotModel1
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -13,22 +16,49 @@ Visualization Manager:
     - Class: rviz_default_plugins/Grid
       Name: Grid
       Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz_default_plugins/TF
+      Enabled: false
+      Name: TF
     - Class: moveit_rviz_plugin/MotionPlanning
       Name: MotionPlanning
+      Move Group Namespace: ""
       Planned Path:
         Loop Animation: false
         State Display Time: 0.05 s
-        Trajectory Topic: display_planned_path
+        Trajectory Topic: /display_planned_path
+      Planning Request:
+        Planning Group: kinematics
+        Query Goal State: true
+        Query Start State: false
       Planning Scene Topic: /move_group/monitored_planning_scene
       Robot Description: robot_description
       Scene Geometry:
         Scene Alpha: 1
+        Show Scene Geometry: true
       Scene Robot:
         Robot Alpha: 0.5
+        Show Robot Collision: false
+        Show Robot Visual: true
       Value: true
   Global Options:
-    # Use world (TF root from URDF) so Gazebo and RViz stay in sync
     Fixed Frame: world
+    Frame Rate: 30
   Tools:
     - Class: rviz_default_plugins/Interact
     - Class: rviz_default_plugins/MoveCamera
@@ -37,15 +67,15 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.0
+      Distance: 0.8
       Focal Point:
-        X: -0.1
-        Y: 0.25
-        Z: 0.30
+        X: 0.0
+        Y: 0.0
+        Z: 0.15
       Name: Current View
       Pitch: 0.5
       Target Frame: world
-      Yaw: -0.623
+      Yaw: -0.8
 Window Geometry:
   Height: 975
   QMainWindow State: 000000ff00000000fd0000000100000000000002b400000375fc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000123000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000166000001910000018800fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007301000002fd000000b5000000a400ffffff000001f60000037500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000

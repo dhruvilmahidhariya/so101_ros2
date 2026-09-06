@@ -4,7 +4,7 @@ controller_manager:
     update_rate: 100  # Hz
 
 
-    kienmatics_controller:
+    kinematics_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
     gripper_controller:
@@ -17,12 +17,13 @@ joint_state_broadcaster:
   ros__parameters:
     frame_id: world
 
-kienmatics_controller:
+kinematics_controller:
   ros__parameters:
     joints:
       - shoulder_pan
       - shoulder_lift
       - elbow_flex
+      - elbow_rotate
       - wrist_flex
       - wrist_roll
     command_interfaces:

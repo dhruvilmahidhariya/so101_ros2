@@ -1,43 +1,61 @@
-# SO101 ROS 2 — Plug-and-Play Workspace
+# SO101 ROS 2 — 6-DoF Workspace
 
-ROS 2 Jazzy workspace for the **LeRobot SO-ARM101** (SO101) robotic arm: description, simulation (Gazebo Harmonic), ROS 2 Control, and MoveIt 2 with a **single-launch** setup (Gazebo + MoveIt + RViz).
+ROS 2 Jazzy workspace for a **6-DoF LeRobot SO-ARM101**: URDF, Gazebo Harmonic, ROS 2 Control, AND MoveIt 2.
+
+The stock SO101 is 5-DoF. This repo adds **`elbow_rotate`** between the forearm (`lower_arm_link` / LINK4) and **`link5_link`**, so MoveIt can plan full 6-DoF Cartesian poses.
+
+![6-DoF SO101 assembly](Docs/SO101_dof6_assembled_mod.png)
+
+![MoveIt / RViz planning the 6-DoF arm](Docs/rviz.png)
+
+Feel free to create a branch named after a ROS distro to add support for other releases.
 
 ---
 
-**Feel Free create a branch with 'ros_distro_name' to add support for other ROS distros.**
+## What this repo is
+
+This is the **description, planning, and launch stack** for the modified arm:
+
+- 6-DoF URDF/Xacro (`so101_new_calib`) with LINK4 + link5 meshes
+- Unified launch: Gazebo + MoveIt `move_group` + RViz in one command
+- Real-robot launch with the same MoveIt config
+- Calibration and controller YAML for the extra joint (servo ID 7)
+
+The Feetech STS3215 driver used on the real arm lives in `so_arm_100_hardware`. Joint names, limits, and calibration for **this** 6-DoF robot are defined here, not in that package.
 
 ---
-
 
 ## Features
-- **Hardware Interface** integrated with so_arm_100_hardware.
-- **ROS 2** (Jazzy recommended) with **Gazebo Harmonic**
-- **Unified launch**: one command starts Gazebo, MoveIt `move_group`, and RViz — plan and execute from MoveIt and see the robot move in Gazebo
-- **URDF/Xacro** with updated calibration (`so101_new_calib`)
-- **ROS 2 Control**  for real and fake(gazebo) hardware.
-- **MoveIt 2** motion planning for arm (OMPL)
-- **RViz** visualization
+
+- **6-DoF kinematics**: `shoulder_pan`, `shoulder_lift`, `elbow_flex`, `elbow_rotate`, `wrist_flex`, `wrist_roll` (+ gripper)
+- **MoveIt 2** (OMPL) on the `kinematics` planning group, with **Home** and **Extended** named states
+- **Unified launch** for sim (`robot_mode:=sim`) or real (`robot_mode:=real`)
+- **ROS 2 Control** for Gazebo and the real bus
+- **RViz** Motion Planning with the interactive marker on `gripper_frame_link`
 
 ---
 
 ## Prerequisites
 
 - **ROS 2** (tested on **Jazzy**; Rolling/Kilted may work)
-- **Gazebo Harmonic** (via `ros_gz_*` packages)
-- Standard build tools: `colcon`, `rosdep`
+- **Gazebo Harmonic** (`ros_gz_*`)
+- `colcon`, `rosdep`
 
 ---
 
-## Clone (with hardware interface submodule)
-
-This repo includes the **LeRobot SO101 hardware interface** as a Git submodule ([so_arm_100_hardware](https://github.com/brukg/so_arm_100_hardware)). Clone with submodules so it is included:
+## Clone and build
 
 ```bash
 git clone --recurse-submodules git@github.com:dhruvilmahidhariya/so101_ros2.git
 cd so101_ros2
+source /opt/ros/jazzy/setup.bash
+./setup.sh
+source install/setup.bash
 ```
 
-If you already cloned without submodules:
+`setup.sh` runs `rosdep` and `colcon build --symlink-install`. Source `install/setup.bash` in every new terminal.
+
+If you cloned without submodules, the real-robot driver is pulled with:
 
 ```bash
 git submodule update --init --recursive
@@ -45,91 +63,75 @@ git submodule update --init --recursive
 
 ---
 
-## One-Command Setup (Plug and Play)
+## 6-DoF kinematics
 
-From the workspace root (after cloning):
+| Joint | Role | Motor ID |
+|-------|------|----------|
+| `shoulder_pan` | Base yaw | 1 |
+| `shoulder_lift` | Shoulder pitch | 2 |
+| `elbow_flex` | Elbow pitch | 3 |
+| `elbow_rotate` | Forearm roll (added DoF) | 7 |
+| `wrist_flex` | Wrist pitch | 4 |
+| `wrist_roll` | Wrist roll | 5 |
+| `gripper` | Jaw (own MoveIt group) | 6 |
 
-```bash
-# 1. Source your ROS 2 distro (e.g. Jazzy)
-source /opt/ros/jazzy/setup.bash
+Chain: `base_link` → `shoulder_link` → `upper_arm_link` → `lower_arm_link` → `link5_link` → `wrist_link` → `gripper_link` → `gripper_frame_link`.
 
-# 2. Install dependencies and build
-./setup.sh
-```
+**Home** is all zeros and matches calibration `center.ticks: 2048` (URDF 0). That pose is a wrist singularity (`elbow_rotate` lines up with `wrist_roll` when `wrist_flex ≈ 0`). For Cartesian planning, start from the **Extended** named state.
 
-Then source the workspace in every new terminal:
-
-```bash
-source install/setup.bash
-```
-
-**What `setup.sh` does:** runs `rosdep update`, installs all dependencies from `src` package manifests, and builds with `colcon build --symlink-install`. No manual dependency installation needed.
+Calibration: `src/lerobot_controller/config/calibration_so101_real.yaml`. Non-gripper joints map as `2048 + direction * radians * 4096 / 2π`.
 
 ---
 
 ## Usage
 
-### Single launch: sim or real
-
-One launch file with a `robot_mode` argument (think: **fake_hardware**, `true` = sim, `false` = real, or use **both**):
+### Sim or real
 
 ```bash
-# Simulation only (Gazebo + MoveIt + RViz) — default
+# Gazebo + MoveIt + RViz (default)
 ros2 launch lerobot_moveit so101.launch.py
 
-# Real robot only (no Gazebo)
+# Real arm + MoveIt + RViz
 ros2 launch lerobot_moveit so101.launch.py robot_mode:=real
-
 ```
 
-- **`robot_mode:=sim`** (default): Gazebo + MoveIt + RViz. Plan and Execute drives the simulated robot.
-- **`robot_mode:=real`**: Real hardware + MoveIt + RViz. Connect the arm via USB (e.g. `/dev/ttyACM1`); override with `serial_port:=/dev/ttyUSB0` if needed (passed to the real controller).
+Default serial port is `/dev/ttyACM0`. Override with `serial_port:=/dev/ttyUSB0` if needed.
 
-
-In RViz use **Motion Planning** and **Execute**; planning library **OMPL** for arm and gripper.
+In RViz use **Motion Planning** → **Execute** (OMPL). Planning group **kinematics** for the arm, **gripper** for the jaw. Named states: **Home**, **Extended**, **Gripper Open**, **Gripper Closed**.
 
 **Real robot: no movement?**
-- **Arm**: In the Motion Planning panel, set **Planning Group** to **kienmatics** (not "gripper"). Then move the interactive marker to a new pose and use Plan & Execute.
-- **Gripper**: Set Planning Group to **gripper**, change the gripper target (drag the marker or set a new joint goal), then Plan & Execute.
-- If the target pose is the same as the current one, the plan has zero motion and the controller still reports "Goal reached" with no visible movement.
-- Check USB: `ls -l /dev/ttyACM1`, user in `dialout` group; override port with `serial_port:=/dev/ttyUSB0` if the arm is on a different port.
+- Set Planning Group to **kinematics**, move the marker, then Plan & Execute.
+- A goal identical to the current pose reports “Goal reached” with no motion.
+- Check `ls -l /dev/ttyACM0` and that your user is in `dialout`.
 
-### Other launch files
+Start from **Extended**, not Home, to avoid the wrist singularity.
 
-- **RViz only** (no Gazebo):  
-  `ros2 launch lerobot_description so101_display.launch.py`
-- **Gazebo only** (no MoveIt):  
-  `ros2 launch lerobot_description so101_gazebo.launch.py`  
-  Then controllers:  
-  `ros2 launch lerobot_controller so101_controller.launch.py`
-- **MoveIt only** (existing move_group + RViz, no sim):  
-  `ros2 launch lerobot_moveit so101_moveit.launch.py`  
-  (Requires robot state from elsewhere or demo mode.)
+### Other launches
+
+- RViz only: `ros2 launch lerobot_description so101_display.launch.py`
+- Gazebo only: `ros2 launch lerobot_description so101_gazebo.launch.py` then `ros2 launch lerobot_controller so101_controller.launch.py`
+- MoveIt only: `ros2 launch lerobot_moveit so101_moveit.launch.py`
 
 ---
 
-## Workspace layout
+## Packages
 
-| Package               | Description |
-|-----------------------|-------------|
-| `lerobot_description` | URDF/Xacro, meshes, Gazebo and RSP launch files |
-| `lerobot_controller`  | ROS 2 Control controller config and launch |
-| `lerobot_moveit`      | MoveIt 2 config (so101_new_calib), unified Gazebo+MoveIt+Rviz launch |
-| `so_arm_100_hardware` | **Submodule** — ROS 2 Control hardware interface and ST3215 servo API (same protocol as SO101 servos). Used for real SO101; joint names and calibration come from this repo. |
+| Package | Role in this workspace |
+|---------|------------------------|
+| `lerobot_description` | URDF/Xacro, LINK4/link5 meshes, display and Gazebo launches |
+| `lerobot_controller` | Controller YAML, 6-DoF calibration, real/sim controller launches |
+| `lerobot_moveit` | MoveIt config, unified `so101.launch.py` |
+| `so_arm_100_hardware` | STS3215 bus driver (dependency for `robot_mode:=real` only) |
 
+---
 
-## Credit and origin
+## Credits
 
-This repository is based on and extends **[lerobot_ws](https://github.com/Pavankv92/lerobot_ws)** by **Pavankv92**.
+- **Modified 6-DoF link STLs** (LINK4 / link5, elbow-roll upgrade): [rabhishek100/so101-6dof-and-extended-versions](https://github.com/rabhishek100/so101-6dof-and-extended-versions). That repo also documents the extra Feetech servo as ID `7` (`elbow_rotate`).
+- **ROS 2 workspace structure** (RViz, Gazebo, ros2_control, MoveIt): based on [Pavankv92/lerobot_ws](https://github.com/Pavankv92/lerobot_ws).
+- **Real-robot STS3215 interface**: [brukg/so_arm_100_hardware](https://github.com/brukg/so_arm_100_hardware).
 
-- **Original work**: [Pavankv92/lerobot_ws](https://github.com/Pavankv92/lerobot_ws) — ROS 2 package for LeRobot SO-ARM101 (RViz, Gazebo, ROS 2 Control, MoveIt 2).
-- **Adaptations in this repo**:
-  - Cloned and modified the workspace structure and packages.
-  - Updated URDF/calibration (`so101_new_calib`).
-  - Added a **unified launch** (Gazebo + MoveIt + RViz in one command).
-  - Generated a new MoveIt package and config; overall structure and many packages remain adapted from the original.
-
-Thanks to **Pavankv92** for the original LeRobot SO-ARM101 ROS 2 integration and structure.
+This repo adds the 6-DoF URDF, MoveIt group, calibration, and  unified launch integration on top of those.
 
 ---
 

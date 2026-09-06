@@ -34,6 +34,15 @@
             <state_interface name="velocity"/>
         </joint>
 
+        <joint name="elbow_rotate">
+            <command_interface name="position">
+                <param name="min">-1.38</param>
+                <param name="max">1.38</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+
         <joint name="wrist_flex">
             <command_interface name="position">
                 <param name="min">-1.65806</param>
