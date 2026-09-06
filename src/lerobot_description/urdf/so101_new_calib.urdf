@@ -325,6 +325,21 @@
     <axis xyz="0 0 0"/>
   </joint>
 
+  <!-- End-effector frame centered on the wrist-roll axis -->
+  <link name="eef_frame_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-9"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="eef_frame_joint" type="fixed">
+    <origin xyz="0 0 -0.0981274" rpy="0 3.14159 0"/>
+    <parent link="gripper_link"/>
+    <child link="eef_frame_link"/>
+  </joint>
+
   <!-- Link moving_jaw_so101_v1 -->
   <link name="moving_jaw_so101_v1_link">
     <inertial>

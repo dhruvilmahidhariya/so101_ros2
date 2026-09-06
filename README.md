@@ -33,7 +33,7 @@ The Feetech STS3215 driver used on the real arm lives in `so_arm_100_hardware`. 
 - **MoveIt 2** (OMPL) on the `kinematics` planning group, with **Home** and **Extended** named states
 - **Unified launch** for sim (`robot_mode:=sim`) or real (`robot_mode:=real`)
 - **ROS 2 Control** for Gazebo and the real bus
-- **RViz** Motion Planning with the interactive marker on `gripper_frame_link`
+- **RViz** Motion Planning with the interactive marker on `eef_frame_link`
 
 ---
 
@@ -77,7 +77,7 @@ git submodule update --init --recursive
 | `wrist_roll` | Wrist roll | 5 |
 | `gripper` | Jaw (own MoveIt group) | 6 |
 
-Chain: `base_link` → `shoulder_link` → `upper_arm_link` → `lower_arm_link` → `link5_link` → `wrist_link` → `gripper_link` → `gripper_frame_link`.
+Chain: `base_link` → `shoulder_link` → `upper_arm_link` → `lower_arm_link` → `link5_link` → `wrist_link` → `gripper_link` → `eef_frame_link`.
 
 **Home** is all zeros and matches calibration `center.ticks: 2048` (URDF 0). That pose is a wrist singularity (`elbow_rotate` lines up with `wrist_roll` when `wrist_flex ≈ 0`). For Cartesian planning, start from the **Extended** named state.
 
@@ -129,7 +129,7 @@ Start from **Extended**, not Home, to avoid the wrist singularity.
 
 ## Credits
 
-- **Modified 6-DoF link STLs** (LINK4 / link5, elbow-roll upgrade): [rabhishek100/so101-6dof-and-extended-versions](https://github.com/rabhishek100/so101-6dof-and-extended-versions). That repo also documents the extra Feetech servo as ID `7` (`elbow_rotate`).
+- **Modified 6-DoF link STLs** (LINK4 / link5, elbow-roll upgrade): [rabhishek100/so101-6dof-and-extended-versions](https://github.com/rabhishek100/so101-6dof-and-extended-versions).
 - **ROS 2 workspace structure** (RViz, Gazebo, ros2_control, MoveIt): based on [Pavankv92/lerobot_ws](https://github.com/Pavankv92/lerobot_ws).
 - **Real-robot STS3215 interface**: [brukg/so_arm_100_hardware](https://github.com/brukg/so_arm_100_hardware).
 
