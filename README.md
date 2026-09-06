@@ -1,5 +1,7 @@
 # SO101 ROS 2 — 6-DoF Workspace
 
+[▶ Watch the real 6-DoF SO101 robot demo](Docs/Real_video.mp4?raw=true)
+
 ROS 2 Jazzy workspace for a **6-DoF LeRobot SO-ARM101**: URDF, Gazebo Harmonic, ROS 2 Control, AND MoveIt 2.
 
 The stock SO101 is 5-DoF. This repo adds **`elbow_rotate`** between the forearm (`lower_arm_link` / LINK4) and **`link5_link`**, so MoveIt can plan full 6-DoF Cartesian poses.
