@@ -1,0 +1,13 @@
+# T_wrist_camera (OpenCV optical frame: x-right y-down z-forward)
+# parent: wrist_link  child: camera_optical_frame
+samples: 27
+xyz_m: [-0.020231, -0.043012, -0.012494]
+rpy_rad: [0.988269, 1.247378, -0.360848]
+rpy_deg: [56.624, 71.469, -20.675]
+
+# URDF snippet (optical frame directly on wrist):
+<joint name="wrist_to_camera_optical" type="fixed">
+  <parent link="wrist_link"/>
+  <child link="camera_optical_frame"/>
+  <origin xyz="-0.020231 -0.043012 -0.012494" rpy="0.988269 1.247378 -0.360848"/>
+</joint>

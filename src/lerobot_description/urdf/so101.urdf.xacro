@@ -8,6 +8,7 @@
     <xacro:arg name="serial_port" default="/dev/ttyACM0" />
 
     <xacro:include filename="$(find lerobot_description)/urdf/so101_new_calib.urdf" />
+    <xacro:include filename="$(find lerobot_description)/urdf/so101_camera.xacro" />
     <xacro:if value="$(arg use_sim)">
       <xacro:include filename="$(find lerobot_description)/urdf/so101_gazebo.xacro" />
       <xacro:include filename="$(find lerobot_description)/urdf/so101_ros2_control.xacro" />
