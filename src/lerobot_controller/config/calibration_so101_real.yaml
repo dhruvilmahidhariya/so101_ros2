@@ -1,4 +1,4 @@
-timestamp: '2026-09-05T00:00:00'
+timestamp: '2026-09-15T00:00:00'
 joints:
   shoulder_pan:
     id: 1
@@ -7,7 +7,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2048
+      ticks: 2220
       speed: 0
       load: 0
     max:
@@ -21,7 +21,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2048
+      ticks: 2090
       speed: 0
       load: 0
     max:
@@ -35,7 +35,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2048
+      ticks: 2044
       speed: 0
       load: 0
     max:
@@ -49,7 +49,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2048
+      ticks: 2036
       speed: 0
       load: 0
     max:
@@ -63,7 +63,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2048
+      ticks: 2013
       speed: 0
       load: 0
     max:
@@ -77,7 +77,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2047
+      ticks: 2022
       speed: 0
       load: 0
     max:
@@ -91,7 +91,7 @@ joints:
       speed: 0
       load: 0
     center:
-      ticks: 2774
+      ticks: 2053
       speed: 0
       load: 0
     max:
