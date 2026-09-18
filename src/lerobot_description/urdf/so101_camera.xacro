@@ -10,6 +10,6 @@
   <joint name="wrist_to_camera_optical" type="fixed">
     <parent link="wrist_link"/>
     <child link="camera_optical_frame"/>
-    <origin xyz="-0.020231 -0.043012 -0.012494" rpy="0.988269 1.247378 -0.360848"/>
+    <origin xyz="-0.050360 -0.045513 0.018273" rpy="1.090172 1.532300 -0.331997"/>
   </joint>
 </robot>
