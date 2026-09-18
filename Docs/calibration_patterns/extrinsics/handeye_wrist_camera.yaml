@@ -1,0 +1,14 @@
+# ^wrist_linkT_camera
+# selected: Tsai  board_rms_m: 0.005155
+samples: 18
+xyz_m: [-0.050360, -0.045513, 0.018273]
+rpy_rad: [1.090172, 1.532300, -0.331997]
+rpy_deg: [62.462, 87.794, -19.022]
+|t|_m: 0.070296
+
+# URDF:
+<joint name="wrist_to_camera_optical" type="fixed">
+  <parent link="wrist_link"/>
+  <child link="camera_optical_frame"/>
+  <origin xyz="-0.050360 -0.045513 0.018273" rpy="1.090172 1.532300 -0.331997"/>
+</joint>

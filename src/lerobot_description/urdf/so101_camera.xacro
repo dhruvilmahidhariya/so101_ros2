@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!--
+    Wrist-mounted Innomaker U20CAM optical frame from hand-eye (Tsai).
+    OpenCV optical: x-right, y-down, z-forward.
+    Source: Docs/calibration_patterns/extrinsics/handeye_wrist_camera.yaml
+  -->
+  <link name="camera_optical_frame"/>
+
+  <joint name="wrist_to_camera_optical" type="fixed">
+    <parent link="wrist_link"/>
+    <child link="camera_optical_frame"/>
+    <origin xyz="-0.050360 -0.045513 0.018273" rpy="1.090172 1.532300 -0.331997"/>
+  </joint>
+</robot>
